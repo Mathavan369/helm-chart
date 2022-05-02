@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.config.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.name }}
+data:
+  dbhost: {{ .Values.config.data.dbhost | quote }}
+  dbport: {{ .Values.config.data.dbport | quote }}
+  dbname: {{ .Values.config.data.dbname | quote }}
+  

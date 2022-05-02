@@ -1,0 +1,55 @@
+replicaCount: 2
+namespace: zen
+name: todoapp
+global:
+  replicaCount: 3
+  
+config:
+  name: postgres
+  data:
+    dbhost: postgres
+    dbport: "8083"
+    dbname: postgres
+secret:
+  name: postgressecrett
+  data:
+    dbuser: cG9zdGdyZXM=
+    dbpassword: MTIzNDU2    
+image:
+  name: todoappdep
+  repository: vdocker0123/todo
+  pullPolicy: IfNotPresent
+  tag: HPA01
+service:
+  name: todoappservice
+  type: NodePort
+  port: 8081
+  targetPort: 8080
+  protocol: TCP
+resources:
+  limits:
+    memory: "128Mi"
+    cpu: "500m"
+  requests:
+    memory: "10Mi"
+    cpu: 10m
+
+readinessProbe:  
+  tcpSocket:
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10   
+   
+livenessProbe:
+  tcpSocket:
+    port: 8080
+  initialDelaySeconds: 15
+  periodSeconds: 20    
+
+ingress:
+  name: todoingress
+  pathtype: Prefix
+  path: /
+  host: clockmyshow.com
+max: 10
+min: 3  

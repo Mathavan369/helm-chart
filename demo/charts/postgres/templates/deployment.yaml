@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.postgres.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.postgres.images.repository }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.postgres.images.repository}}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.postgres.images.repository }}
+    spec:
+      containers:
+        - name: {{ .Values.postgres.name }}
+          image: "{{ .Values.postgres.images.repository}}:{{ .Values.postgres.tag }}"
+          ports:
+            - containerPort: {{ .Values.postgres.images.targetPort }}
+          env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.postgres.secret.name }}
+                key: dbpassword
+        
