@@ -1,8 +1,8 @@
-replicaCount: 2
+replicaCount: 1
 namespace: zen
 name: todoapp
 global:
-  replicaCount: 3
+  replicaCount: 1
   
 config:
   name: postgres
